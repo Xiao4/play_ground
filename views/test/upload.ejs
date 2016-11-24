@@ -8,6 +8,7 @@
 html, body{
 	height:100%;background-color: #dcdcdc;}
 </style>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 </head>
 <body>
 <ul id="debug"></ul>
@@ -86,21 +87,27 @@ var UPLOAD_BUNCH = 1*Math.pow(1024, 2); //1M
 		if (start+UPLOAD_BUNCH>=file.size && typeof done == "function") {
 			end = file.size;
 			blob_name = file.name+"_"+start+"-"+end;
-			next(blob_name, file.slice(start, end), preSend, done);
+			next({"name": file.name, total_size: file.size, "start": start, "end": end, "blob":file.slice(start, end)}, preSend, done);
 		}else{
 			end = start+UPLOAD_BUNCH;
 			blob_name = file.name+"_"+start+"-"+end;
-			next(blob_name, file.slice(start, end), preSend,function callSelf(){
+			next({"name": file.name, total_size: file.size, "start": start, "end": end, "blob":file.slice(start, end)}, preSend,function callSelf(){
 				sliceFile(file, end, next, done);
 			});
 		}
 	}
-	function preSend(blob, done){
-		console.log('blob sended:', blob.size);
+	var socket = io('domob-206.domob-inc.cn:14455');
+	function preSend(rangeObj, done){
+		console.log('blob sended:', rangeObj.blob.size);
+		socket.emit('push file', rangeObj);
 		done();
 	}
-	function zipBlob(blob_name, org_blob, next, done){
-		zipper.addFiles(blob_name, org_blob, {
+	socket.on('push file finished', function(e){
+		console.log('push file finished', e.name, e.start, e.end);
+	});
+	function zipBlob(rangeObj, next, done){
+		var blob_name = rangeObj.name+"_"+rangeObj.start+"-"+rangeObj.end;
+		zipper.addFiles(blob_name, rangeObj.blob, {
 			onprogress(done, total){
 				// log('进度', Math.floor(done*100/total)+"%");
 				// console.log("progress:", arguments);
@@ -111,8 +118,9 @@ var UPLOAD_BUNCH = 1*Math.pow(1024, 2); //1M
 				// 	log('完事', '<a href="'+url+'" download="'+blob_name+'.zip">down</a>');
 				// });
 				zipper.getBlob(function(blob){
-					log(blob_name, '压缩比：', Math.floor(org_blob.size*100/blob.size)/100);
-					next(blob, function(){done()});
+					log(blob_name, '压缩比：', Math.floor(rangeObj.blob.size*100/blob.size)/100);
+					rangeObj.blob = blob;
+					next(rangeObj, function(){done()});
 				});
 			}, 
 			onerror(){
