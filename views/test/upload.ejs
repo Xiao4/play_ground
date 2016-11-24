@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=1">
+<title>单个文件上传</title>
+<style>
+*{margin: 0;padding: 0;position:relative;-webkit-box-sizing: border-box;box-sizing: border-box;}
+html, body{
+	height:100%;background-color: #dcdcdc;}
+</style>
+</head>
+<body>
+<ul id="debug"></ul>
+<div>
+	<input type="file" id="fileInput" name="file" />
+</div>
+<script type="text/javascript" src="/site/upload/zip.js"></script>
+<script type="text/javascript">
+zip.workerScriptsPath = "/site/upload/worker/";
+function log(){
+	var li = document.createElement('li');
+	li.innerHTML = Array.prototype.join.call(arguments, ' ');
+	document.getElementById('debug').appendChild(li);
+}
+var zipper = (function() {
+	var zipWriter, writer;
+
+	/*
+		options:
+			oninit, 
+			onadd, 
+			onprogress, 
+			onend,
+			onerror
+	*/
+	return {
+		addFiles : function addFiles(blob_name, blob, options) {
+			writer = new zip.BlobWriter();
+			zip.createWriter(writer, function(writer) {
+				zipWriter = writer;
+				// options.oninit();
+				// options.onadd(blob);
+				zipWriter.add(blob_name, new zip.BlobReader(blob), function() {
+					options.onend();
+				}, options.onprogress);
+			}, options.onerror);
+		},
+		getBlobURL : function(callback) {
+			zipWriter.close(function(blob) {
+				var blobURL = URL.createObjectURL(blob);
+				callback(blobURL);
+				zipWriter = null;
+			});
+		},
+		getBlob : function(callback) {
+			zipWriter.close(callback);
+		}
+	};
+})();
+
+var MAX_UPLOAD = 3*Math.pow(1024, 3); //3GB
+var UPLOAD_BUNCH = 1*Math.pow(1024, 2); //1M
+
+(function(){
+	var fileInput = document.getElementById('fileInput');
+	fileInput.addEventListener('change', function(e){
+		var file = e.target.files[0];
+		if(file.size> MAX_UPLOAD){
+			return log('文件太大');
+		}
+		console.log('got file:', file.name, file.size);
+
+		sliceFile(file, zipBlob, function uploadFinished(){
+			console.log('finished:', file.name);
+		});
+	}, false);
+
+	//文件切片
+	function sliceFile(file, start, next, done){
+		var end, blob_name;
+		if (typeof start == "function") {
+			done = next;
+			next = start;
+			start = 0;
+		}
+		if (start+UPLOAD_BUNCH>=file.size && typeof done == "function") {
+			end = file.size;
+			blob_name = file.name+"_"+start+"-"+end;
+			next(blob_name, file.slice(start, end), preSend, done);
+		}else{
+			end = start+UPLOAD_BUNCH;
+			blob_name = file.name+"_"+start+"-"+end;
+			next(blob_name, file.slice(start, end), preSend,function callSelf(){
+				sliceFile(file, end, next, done);
+			});
+		}
+	}
+	function preSend(blob, done){
+		console.log('blob sended:', blob.size);
+		done();
+	}
+	function zipBlob(blob_name, org_blob, next, done){
+		zipper.addFiles(blob_name, org_blob, {
+			onprogress(done, total){
+				// log('进度', Math.floor(done*100/total)+"%");
+				// console.log("progress:", arguments);
+				// console.log("progress:", Math.floor(done*100/total)+"%");
+			}, 
+			onend(){
+				// zipper.getBlobURL(function(url){
+				// 	log('完事', '<a href="'+url+'" download="'+blob_name+'.zip">down</a>');
+				// });
+				zipper.getBlob(function(blob){
+					log(blob_name, '压缩比：', Math.floor(org_blob.size*100/blob.size)/100);
+					next(blob, function(){done()});
+				});
+			}, 
+			onerror(){
+				console.log("error:", arguments);
+				done();
+			}
+		});
+	}
+})();
+</script>
+</body>
+</html>

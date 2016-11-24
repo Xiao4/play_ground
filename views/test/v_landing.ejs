@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="theme1"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=1" />
+<title></title>
+<style>
+.logo{
+	background-image:  url('http://sm.domobcdn.com/ugc/632629.jpg');
+}
+#bg{
+	background-image:  url('http://sm.domobcdn.com/ugc/634107.jpg');
+}
+
+html, body {margin: 0; padding: 0;-webkit-user-select:none;-ms-user-select:none;overflow: hidden;height: 100%;position: relative;
+}
+img{border: medium none;
+} 
+a:link {text-decoration: none;
+}
+#bg{width: 100%;height: 100%;background-size: 100% auto;background-repeat: no-repeat; transition: -webkit-filter 1s;will-change: -webkit-filter;transform: translateZ(0);}
+#bg.blured{
+	-webkit-filter: blur(3rem);
+}
+#banner {position: fixed;box-sizing: border-box;bottom: 0;left:0;width: 100%;padding: 1em;height: 7.9375em;}
+#banner:before{content: "";display: block;position: absolute;width: 100%;height: 3.75em;top: -3.75em;left: 0;}
+.logo, .btn{-webkit-order: 0;order: 0;-webkit-flex: 0 1 auto;flex: 0 1 auto;-webkit-align-self: auto;align-self: auto;}
+.logo {width: 5.9375em;height: 5.9375em;background-repeat: no-repeat;background-size: contain;border-radius: 18%;float: left;}
+.text {font-size: 0.875em;line-height: 2rem;margin-left: 6.4375rem;}
+.stars{background: transparent url('http://sm.domobcdn.com/ugc/632679.png') no-repeat 0 bottom;background-size: auto 1rem;padding-left: 5rem;margin-left: 6.4375rem;}
+.eval{color: #959595;font-size: 0.75em;}
+#player{
+	position: absolute; top: 0;left: 0;right: 0;bottom: 7.9375em; opacity: 1; will-change: opacity;
+	transition: opacity 0.5s;
+}
+#player.out{opacity: 0;}
+#crvideo{display: block;width:100%;position: absolute;top: 50%;left: 0;}
+#mute{position: absolute;width: 2em;height: 2em;right: 1em;bottom: 30%;background: rgba(0,0,0,0) url('http://sm.domobcdn.com/ugc/632898.png') no-repeat right center;background-size: 1em auto;}
+#mute.un{background-image: url('http://sm.domobcdn.com/ugc/632897.png');}
+.btn{width: 2.75rem; height: 1.53125rem;box-sizing: border-box; display: block;-webkit-appearance: none; position: absolute;right: 1rem;bottom: 1.5rem;font-size: 0.75rem;line-height: 1.125rem;border-radius: 3px;border-width: 1px;border-style: solid;text-align: right;padding: 0.25rem;}
+.btn:before{content: "+";display: block;position: absolute;left: 0.25rem;top: 0.125rem;line-height: 1em;}
+
+/*theme1*/
+.theme1, .theme1 #bg,.theme1 #banner{background-color: #fff;}
+.theme1 #banner:before{
+	background: -webkit-linear-gradient(top,  rgba(255,255,255, 0) 0%,rgba(255,255,255, 1) 100%);
+	background: linear-gradient(to bottom,  rgba(255,255,255, 0) 0%,rgba(255,255,255, 1) 100%);
+}
+.theme1 .text{color: #1b1b1b;}
+.theme1 .btn{color: #0068b7;border-color: #0068b7;}
+
+/*theme2*/
+.theme2, .theme2 #bg,.theme2 #banner{background-color: #161513;}
+.theme2 #banner:before{
+	background: -webkit-linear-gradient(top,  rgba(22,21,19, 0) 0%,rgba(22,21,19, 1) 100%);
+	background: linear-gradient(to bottom,  rgba(22,21,19, 0) 0%,rgba(22,21,19, 1) 100%);
+}
+.theme2 .text{color: #f5bf89;}
+.theme2 .btn{color: #f5bf89;border-color: #f5bf89;}
+
+@media all and (max-width: 367px){
+	html{font-size: 16px;}
+}
+@media all and (min-width: 488px) and (min-height: 51px) { /* min-height: 80px */
+	html{font-size: 22px;}
+}
+@media all and (min-width: 600px) and (min-height: 81px) { /* min-height: 90px */
+	html{font-size: 28px;}
+}
+@media all and (min-width: 748px) and (min-height: 91px) { /* min-height: 110px */
+	html{font-size: 32px;}
+}
+@media all and (min-width: 800px) and (min-height: 111px) { /* min-height: 124px */
+	html{font-size: 34px;}
+}
+@media all and (max-aspect-ratio: 4/3) {}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div id="player" class="out">
+	<video id="crvideo" controls="false" webkit-playsinline
+	src="http://domob-203.domob-inc.cn:1980/ugc/1021484.mp4  " 
+	type="video/mp4" /></video>
+</div>
+<div id="banner" class="bg1">
+	<div class="logo"></div>
+	<div class="text">战龙之刃-开启全民国战时代!</div>
+	<div class="stars"><span class="eval">(1,324)</span></div>
+	<div class="btn">获取</div>
+</div>
+<!-- <div id="mute" class="un"></div> -->
+<script type="text/javascript">
+	var tmpParam = location.search.substr(1).split('&'), param={}, prop;
+	for (var i = 0; i < tmpParam.length; i++) {
+		prop = tmpParam[i].split('=');
+		param[prop[0]]=prop[1];
+	};
+	var urls={
+		play:['http://track.dmrtb.com/h5v/event?type=play&tr='+param.tr], //1）点击播放：相当于咱们现在广告的点击事件；
+		cdp:['http://track.dmrtb.com/h5v/event?type=click-during-playging&tr='+param.tr], //2）播放中途点击下载按钮：
+		ended: ['http://track.dmrtb.com/h5v/event?type=ended&tr='+param.tr], //3）播放结束：
+		cae:['http://track.dmrtb.com/h5v/event?type=click-after-ended&tr='+param.tr]
+	}
+</script>
+
+<script type="text/javascript">
+var $ = function(q){return document.querySelector(q)}, 
+	$$ = function(q){return document.querySelectorAll(q)},
+	video = $('#crvideo'),
+	__played=false;
+video.style.marginTop=-video.clientHeight/2+'px';
+video.controls =false;
+
+video.addEventListener('canplaythrough',function(){
+	$('#bg').className="blured";
+	$('#player').className="";
+	// $('#mute').style.display="block";
+	video.play();
+},false);
+video.addEventListener('play',function(){
+	if(typeof document.webkitExitFullscreen=="function")document.webkitExitFullscreen();
+	__report(urls.play);
+},false);
+video.addEventListener('ended',function(){
+	$('#bg').className="";
+	$('#player').className="out";
+	// $('#mute').style.display="none";
+	__played=true;
+	__report(urls.ended);
+	setTimeout((function(){$('#player').style.display="none";}),500);
+},false);
+video.addEventListener('pause',function(){
+	console.log(video.currentTime);
+},false);
+var __report_done;
+function __report(urls, callback){
+	var len, url, img;
+	if(urls && (len = urls.length)){
+		while (len--) {
+			url = urls[len];
+			if (/^http/.test(url)) {
+				img = document.createElement('img');
+				if(typeof callback === "function"){
+					__report_done = 0;
+					img.onload = img.oninvalid = img.onabort = img.onloadend  = img.onerror = function(){
+						if(++__report_done == urls.length)callback();
+					}
+				}
+				img.src = url;
+			}
+		}
+	}else{
+		if(typeof callback === "function")callback();
+	}
+}
+// $('#mute').addEventListener('click',function(){
+// 	if(video.muted){
+// 		video.muted=false;
+// 		video.volume=1;
+// 		$('#mute').className="";
+// 	}else{
+// 		video.muted=true;
+// 		video.volume=0;
+// 		$('#mute').className="un";
+// 	}
+// });
+$('#banner').addEventListener('click',function(){
+	__report(__played?urls.cae:urls.cdp);
+	domob.go();
+});
+$('#bg').addEventListener('click',function(){
+	if(__played){
+		__report(urls.cae);
+		domob.go();
+	}
+});
+document.addEventListener('DOMContentLoaded', function(){
+	video.load(); video.play(); //video.pause();
+}, false);
+</script>
+ 
+</body></html>

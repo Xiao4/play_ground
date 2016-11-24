@@ -1,0 +1,18 @@
+{
+	"PORT": 14445,
+	"DPR_FILES_PATH": "../dpr_files",
+	"SERVER_URL": "http://domob-206.domob-inc.cn:14445",
+	"MIME" : {
+        "jpg":  "image/jpeg",
+        "gif":  "image/gif",
+        "png":  "image/png",
+        "ico":  "image/x-icon",
+        "icon": "image/x-icon",
+        "icns": "image/x-icns",
+        "css":  "text/css",
+        "js":   "text/javascript",
+        "html": "text/html",
+        "htm":  "text/html",
+        "txt":  "text/plain"
+    }
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=1" />
+<title></title>
+<style>
+*{margin: 0;padding: 0;}
+html,body{background: transparent none;font-size: 16px;}
+div{position: fixed;width: 100%;bottom:0;top: 0;overflow: hidden;}
+section{height: 100%;width: 500%;display: -webkit-flex;-webkit-flex-direction: row;-webkit-flex-wrap: nowrap;-webkit-justify-content: flex-start;-webkit-align-content: stretch;-webkit-align-items: stretch;-webkit-transform: translate3d(0,0,0);transition: -webkit-transform  0.3s ease-out;}
+section a{display: block;-webkit-order: 0;-webkit-flex: 1 1 auto;background:transparent none no-repeat center/auto 100%;}
+p{position: absolute;bottom: 10%;text-align: center;width: 100%;}
+em{display: inline-block;width: 0.75rem;height: 0.75rem;background-color: #aaa;border-radius: 50%;margin-left: 0.75em;}
+em.c{background-color: #f9ae4a}
+</style>
+</head>
+<body>
+<div>
+	<section>
+		<!-- <a href="http://lefu8.com" style="background-image:url('http://lefu8.com/templates/images/banner1.jpg')"/></a> -->
+	</section>
+	<p>
+		<!-- <em class="c"></em> -->
+	</p>
+</div>
+<script type="text/javascript">
+/*
+	src: 图片地址
+	href: 点击跳转地址
+	imp: 展现汇报地址
+*/
+var C=[
+		{
+			src:'http://lefu8.com/templates/images/banner1.jpg',
+			href:'http://lefu8.com',
+			imp:'http://fakeurl/imp_report_url_here'
+		},
+		{
+			src:'http://lefu8.com/templates/images/banner2.jpg',
+			href:'http://lefu8.com',
+			imp:'http://fakeurl/imp_report_url_here'
+		},
+		{
+			src:'http://lefu8.com/templates/images/banner3.jpg',
+			href:'http://lefu8.com',
+			imp:'http://fakeurl/imp_report_url_here'
+		},
+		{
+			src:'http://lefu8.com/templates/images/banner4.jpg',
+			href:'http://lefu8.com',
+			imp:'http://fakeurl/imp_report_url_here'
+		},
+		{
+			src:'http://lefu8.com/templates/images/banner5.jpg',
+			href:'http://lefu8.com',
+			imp:'http://fakeurl/imp_report_url_here'
+		}
+	];
+</script>
+<script type="text/javascript">
+// !function(e,t,n){function o(){for(var e=[],o=[],r=0;r<n.length;r++)e.push('<a href="'+n[r].href+'" style="background-image:url(\''+n[r].src+"')\"/></a>"),o.push("<em></em>");L.innerHTML=e.join(""),g=L.querySelectorAll("a"),T=g.length,i(),n.length&&n.length>1&&(t.querySelector("p").innerHTML=o.join(""),v=t.querySelectorAll("em"),c(0))}function i(){k&&clearTimeout(k);var e=L.style.webkitTransform.match(/3d\(([-\d]+)/);currentX=e?e[1]:1,position=Math.floor(currentX/(m||t.body.clientWidth)),m=t.body.clientWidth,X=m*position,r(X),setTimeout(u,1e3)}function r(e){y&&w(y),y=M(function(){L.style.transition="initial",L.style.webkitTransform="translate3d("+e+"px,0,0)"})}function a(e){y&&w(y),y=M(function(){L.style.transition="-webkit-transform  0.3s ease-out",L.style.webkitTransform="translate3d("+e+"px,0,0)",c(e)})}function c(e){for(var t=-Math.floor((e||1)/m),o=0;o<v.length;o++)v[o].className="";v[t].className="c",n[t].imp&&(s(n[t].imp),delete n[t].imp)}function s(e){img=t.createElement("img"),img.src=e}function u(){k&&clearTimeout(k),k=setInterval(l,3e3)}function l(){var e=L.style.webkitTransform.match(/3d\(([-\d]+)/);currentX=e?e[1]:1,position=Math.floor(currentX/m),-position==T-1?(r(-m),X=0):X=m*(position-1),a(X)}var m,d,f,h,p,g,T,v,y,b,M=e.requestAnimationFrame?e.requestAnimationFrame:function(e){return setTimeout(e,16)},w=e.cancelAnimationFrame?e.cancelAnimationFrame:e.clearTimeout,L=t.querySelector("section"),X=0;e.addEventListener("resize",function(){b&&w(b),b=M(i)}),L.addEventListener("touchstart",function(e){e.touches.length>1||(k&&clearTimeout(k),d=e.changedTouches[0].clientX,f=e.changedTouches[0].clientY,h=0)}),L.addEventListener("touchmove",function(e){var t=e.changedTouches[0].pageX,n=e.changedTouches[0].pageY;if("number"==typeof h&&(h=!!(h||Math.abs(t-d)<Math.abs(n-f))),h===!1){e.preventDefault(),e.stopPropagation();var o=t-d;d=t,X+=o,p=1,0>o&&(p=-1),r(X)}}),L.addEventListener("touchend",function(e){var t=L.style.webkitTransform.match(/3d\(([-\d]+)/);currentX=t?t[1]:1,position=Math.floor(currentX/m),X=0==position?0:position==-T?-(T-1)*m:1==p?(position+1)*m:position*m,a(X),setTimeout(u,1e3)});var k;t.addEventListener("DOMContentLoaded",o)}(window,document,C);
+(function(window, document, C){
+	var rnf = (window.requestAnimationFrame?window.requestAnimationFrame:function(fn){return setTimeout(fn, 16);}),
+		caf = (window.cancelAnimationFrame? window.cancelAnimationFrame:window.clearTimeout);
+	var r=document.querySelector('section'), w,
+		startPositionX, startPositionY, ifClick, _movestart, moveDirect, 
+		offset=0, 
+		banners,
+		bannerNum,
+		dots;
+
+	function init(){
+		var tmpC=[], tmpD=[];
+		for (var i = 0; i < C.length; i++) {
+			tmpC.push('<a href="'+C[i].href+'" style="background-image:url(\''+C[i].src+'\')"/></a>');
+			tmpD.push('<em></em>');
+		}
+		r.innerHTML=tmpC.join('');
+
+		banners=r.querySelectorAll('a'),
+		bannerNum=banners.length;
+		repos();
+		if(C.length&&C.length>1){
+			document.querySelector('p').innerHTML=tmpD.join('');
+			dots=document.querySelectorAll('em');
+			dot(0);
+		}
+	}
+	function repos(){
+		if(__runTimmer)clearTimeout(__runTimmer);
+		var currentStyleX = r.style.webkitTransform.match(/3d\(([-\d]+)/)
+			currentX = (currentStyleX?currentStyleX[1]:1),
+			position = Math.floor(currentX / (w||document.body.clientWidth));
+		w = document.body.clientWidth;
+		offset = w*position;
+		render(offset);
+		setTimeout(run, 1000);
+	}
+	var __renderTimmer;
+	function render(offset){
+		if(__renderTimmer)caf(__renderTimmer);
+		__renderTimmer = rnf(function(){
+			r.style.transition="initial";
+			r.style.webkitTransform="translate3d("+offset+"px,0,0)";
+		});
+	}
+	function goback(offset){
+		if(__renderTimmer)caf(__renderTimmer);
+		__renderTimmer = rnf(function(){
+			r.style.transition="-webkit-transform  0.3s ease-out";
+			r.style.webkitTransform="translate3d("+offset+"px,0,0)";
+			dot(offset);
+		});
+	}
+	function dot(offset){
+		var position = -Math.floor((offset||1) / w);
+		for (var i = 0; i < dots.length; i++) {
+			dots[i].className="";
+		}
+		dots[position].className="c";
+		if(C[position].imp){
+			report(C[position].imp);
+			delete C[position].imp;
+		}
+	}
+	function report(url){
+		img = document.createElement('img');
+		img.src = url;
+	}
+	var __reposTimeout;
+	window.addEventListener('resize', function(){
+		if(__reposTimeout)caf(__reposTimeout);
+		__reposTimeout = rnf(repos);
+	});
+	r.addEventListener('touchstart', function(e){
+		if(e.touches.length>1){return;}
+		if(__runTimmer)clearTimeout(__runTimmer);
+		startPositionX = e.changedTouches[0].clientX;
+		startPositionY = e.changedTouches[0].clientY;
+		_movestart = 0;
+	});
+	r.addEventListener('touchmove', function(e){
+		var currentX = e.changedTouches[0].pageX,
+			currentY = e.changedTouches[0].pageY;
+		if("number" == typeof _movestart){
+			_movestart = !!(_movestart || Math.abs(currentX - startPositionX) < Math.abs(currentY - startPositionY));
+		}
+		if(_movestart === false){
+			e.preventDefault();
+			e.stopPropagation();
+			var px = currentX - startPositionX;
+			startPositionX = currentX;
+			offset += px;
+			moveDirect = 1;
+
+			if(px < 0){
+				moveDirect = -1;
+			}
+			render(offset);
+		}
+	});
+	r.addEventListener('touchend', function(e){
+		var currentStyleX = r.style.webkitTransform.match(/3d\(([-\d]+)/)
+			currentX = (currentStyleX?currentStyleX[1]:1),
+			position = Math.floor(currentX / w);
+		if(position == 0){
+			offset = 0;
+		}else if(position == -bannerNum){
+			offset = - (bannerNum -1) * w;
+		}
+		else{
+			if(moveDirect ==1 ){
+				offset = (position + 1) * w;
+			}else{
+				offset = position  * w;
+			}
+		}
+		goback(offset);
+		setTimeout(run, 1000);
+	});
+	var __runTimmer;
+	function run(){
+		if(__runTimmer)clearTimeout(__runTimmer);
+		__runTimmer=setInterval(roll, 3000);
+	}
+	function roll(){
+		var currentStyleX = r.style.webkitTransform.match(/3d\(([-\d]+)/)
+		currentX = (currentStyleX?currentStyleX[1]:1),
+		position = Math.floor(currentX / w);
+		if(-position==bannerNum-1){
+			render(-w);
+			offset = 0;
+		}else{
+			offset=w*(position-1);
+		}
+		goback(offset);
+	}
+	document.addEventListener("DOMContentLoaded", init);
+})(window, document, C);
+</script>
+</body></html>

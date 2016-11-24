@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=1">
+<title>Taobao</title>
+<style>
+*{margin:0;padding:0;border:medium none;height: 100%;width: 100%;}
+</style>
+</head>
+<body class="v43">
+<script type="text/javascript">
+	var tmpParam = location.search.substr(1).split('&'), param={}, prop;
+	for (var i = 0; i < tmpParam.length; i++) {
+		prop = tmpParam[i].split('=');
+		param[prop[0]]=prop[1];
+	};
+	var ifURL="http://item.taobao.com/item.htm?id=43316187256&mm_gxbid="+param.mm_gxbid,
+		taobaoURL="taobao://item.taobao.com/item.htm?id=43316187256&mm_gxbid="+param.mm_gxbid,
+		tmallURL="tmall://item.taobao.com/item.htm?id=43316187256&mm_gxbid="+param.mm_gxbid;
+		// "tmall://page.tm/webview?webURLString="+encodeURIComponent('item.taobao.com/item.htm?id=43316187255');
+</script>
+
+<script type="text/javascript">
+function taobao(){
+	var ifr=document.createElement('iframe');
+	ifr.src = ifURL+"&e_ts="+(new Date()).valueOf();
+	document.body.appendChild(ifr);
+	
+	ifr.addEventListener('load', function(){
+		var __os = navigator.userAgent.match(/OS (\d+)_\d[_\d]* like Mac OS X/i);
+		if(__os.length && parseInt(__os[1], 10)>8){
+			setTimeout(function(){
+				useAnchorLink(taobaoURL);
+				useAnchorLink(tmallURL);
+			}, 2000);
+		}else{
+			makeHiddenIframe(taobaoURL);
+			makeHiddenIframe(tmallURL);
+		}
+	});
+}
+function useAnchorLink(url) {
+    var a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.style.display = 'none';
+    document.body.appendChild(a);
+
+    var e = document.createEvent('HTMLEvents');
+    e.initEvent('click', false, false);
+    a.dispatchEvent(e);
+}
+function makeHiddenIframe(url){
+    var ifa = document.createElement('iframe');
+		ifa.style.display='none';
+    ifa.style.width = '0%';
+    ifa.style.height = '0%';
+    ifa.style.border = 'none';
+    ifa.style.margin = '0';
+    ifa.style.padding = '0';
+    ifa.src = url+"&e_ts="+(new Date()).valueOf();
+    document.body.appendChild(ifa);
+}
+document.addEventListener("DOMContentLoaded", taobao);
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=1">
+<title>视频</title>
+<style>
+*{margin: 0;padding: 0;position:relative;-webkit-box-sizing: border-box;box-sizing: border-box;}
+html, body{
+	height:100%;overflow: hidden;background-color: #dcdcdc;}
+body{
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	-webkit-flex-wrap: nowrap;
+	flex-wrap: nowrap;
+	-webkit-justify-content: flex-start;
+	justify-content: flex-start;
+	-webkit-align-content: stretch;
+	align-content: stretch;
+	-webkit-align-items: stretch;
+	align-items: stretch;
+	background-color: #fff;
+	max-width: 720px;
+	margin: 0 auto;
+}
+.wrapper{
+	clear: both;overflow: hidden;
+	-webkit-order: 0;
+	order: 0;
+	-webkit-flex: 0 1 auto;
+	flex: 0 1 auto;
+	-webkit-align-self: auto;
+	align-self: auto;
+
+	padding: 1rem;
+}
+span{
+	font-family: monospace;
+	font-size: 2rem;
+}
+#aqi_block{
+	-webkit-order: 0;
+	order: 0;
+	-webkit-flex: 1 1 auto;
+	flex: 1 1 auto;
+	-webkit-align-self: auto;
+	align-self: auto;
+
+	background-color: hsl(120, 100%, 46%);
+	/*
+		h:
+			aqi 0~300: 120~ -80;
+		l: 
+			api 300~500: 46~0;
+	*/
+	color: #fff;
+	-webkit-transition: background-color 1s;
+	transition: background-color 1s;
+
+	position: relative;
+}
+#aqi_block p{
+	position: absolute;
+	left: 1rem;
+	bottom: 1rem;
+}
+#aqi_block span{
+	font-size: 6rem;
+	font-weight: 100;
+}
+
+#aqi_detail{
+	color: #333;
+	border-bottom: 1px solid #cdcdcd;
+}
+ul{
+    display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-justify-content: flex-start;
+	justify-content: flex-start;
+	-webkit-align-content: stretch;
+	align-content: stretch;
+	-webkit-align-items: center;
+	align-items: center;
+
+	list-style: none;
+}
+li{
+	-webkit-order: 0;
+	order: 0;
+	-webkit-flex: 1 1 auto;
+	flex: 1 1 auto;
+	-webkit-align-self: auto;
+	align-self: auto;
+	font-size: 0.625rem;
+	padding-left: 1rem;
+}
+dfn{
+	font-style: normal;
+}
+</style>
+</head>
+<body>
+	<div id="aqi_block" class="wrapper">
+		<p>AQI: <span>0</span></p>
+	</div>
+	<div id="aqi_detail" class="wrapper">
+		<ul>
+			<li id="apid_pm1">
+				<dfn>PM1.0:</dfn>
+				<span>0</span>μg/m³
+			</li>
+			<li id="apid_pm2_5">
+				<dfn>PM2.5:</dfn>
+				<span>0</span>μg/m³
+			</li>
+			<li id="apid_pm10">
+				<dfn>PM10:</dfn>
+				<span>0</span>μg/m³
+			</li>
+		</ul>
+	</div>
+	<div class="wrapper">
+		<div id="weater_detail">
+			<ul>
+				<li id="weater_temperature">
+					<dfn>T:</dfn>
+					<span>24.3</span>°C
+				</li>
+				<li id="weater_humidity">
+					<dfn>RH:</dfn>
+					<span>34</span>%
+				</li>
+			</ul>
+		</div>
+	</div>
+<script type="text/javascript">
+	/*
+		background-color: hsl(120, 100%, 46%);
+			h:
+				aqi 0~300: 120~ -80;
+			l: 
+				api 300~500: 46~0;
+	*/
+	var __aqi_block = document.getElementById('aqi_block');
+	function aqiChanged(aqi){
+		var h,l=46;
+		if(aqi>300){
+			h = 280;
+			l = parseInt(46 - (46/200)*(aqi-300));
+		}else{
+			h = parseInt(120-(200/300)*aqi);
+		}
+		if(h<0)h+=360;
+		__aqi_block.style.backgroundColor="hsl("+h+", 100%, "+l+"%)";
+		__aqi_block.getElementsByTagName('span')[0].innerHTML = aqi;
+	}
+</script>
+</body>
+</html>

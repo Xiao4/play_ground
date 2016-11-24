@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=1">
+<title>视频</title>
+<style>
+*{margin: 0;padding: 0;position:relative;-webkit-box-sizing: border-box;box-sizing: border-box;} html, body{height:100%;overflow: hidden;background-color: #000}
+#player{background-color: #000;position: absolute; left: 0; top: 50%; width: 100%;}
+#crvideo{display: block;width:100%;height:100%;position: absolute;left: 0; top:0;}
+.cover{ display: none;position: absolute;}
+.cover-active{display: block;}
+#poster{height: 100%;width: 100%;top:0; background:no-repeat center / contain;}
+#poster:before{content: "";display: block;position: absolute;top: 50%;left: 50%;width: 5em;height: 5em;margin-left: -2.5em;margin-top: -2.5em;background-color: rgba(255,255,255,0.8);border-radius: 50%;}
+#poster:after{content: "";display: block;position: absolute;top: 50%;left: 50%;width: 0;height: 0;margin-top: -1em;margin-left: -0.75em;border-width: 1em 2em;border-style: solid;border-color: transparent transparent transparent rgba(0,0,0,0.75);}
+#playingBtn{right: 0;width: 100%;}#playingBtn img{display: block;width: 100%;}
+#endedBtn{top: 0;right: 0;width: 100%;padding: 42% 20% 25% 52%;}#endedBtn img{display: block;width: 100%;}
+.v43 #player{padding-top: 75%;} .v43 #playingBtn{top: 12%;padding: 10% 5% 50% 80%;} .v43 #endedBtn{padding: 42% 20% 25% 52%;}
+.v169 #player{padding-top:  56.25%;}
+.v169 #playingBtn{top: 12%;padding: 10% 5% 50% 80%;}
+.v169 #endedBtn{padding: 42% 20% 25% 52%;}
+</style>
+<script type="text/javascript" src="http://a.duomeng.cn/hm/common/dcc.client.min.js?v=20141126"></script>
+</head>
+<body class="v43">
+<div id="player">
+	<video id="crvideo" controls
+		src="http://sm.domobcdn.com/ugc/493821.MP4" 
+		type="video/mp4" /></video>
+	<!--<video id="crvideo" controls webkit-playsinline 
+		src="http://sm.domobcdn.com/ugc/493821.MP4" 
+		type="video/mp4" /></video>
+		 <div id="poster" class="cover cover-active"></div> 
+		http://sm.domobcdn.com/ugc/493821.MP4
+		http://domob-203.domob-inc.cn:1980/ugc/1014735.mp4
+		-->
+	<div id="playingBtn" class="cover"><img 
+		src="http://domob-203.domob-inc.cn:1980/ugc/1014738.JPEG"
+	></div>
+	<div id="poster" class="cover" 
+		style="background-image: url(http://domob-203.domob-inc.cn:1980/ugc/1014739.jpg)"
+	></div>
+	<div id="endedBtn" class="cover"><img 
+		src="http://domob-203.domob-inc.cn:1980/ugc/1014738.JPEG"
+	></div>
+</div>
+<script type="text/javascript">
+	var tmpParam = location.search.substr(1).split('&'), param={}, prop;
+	for (var i = 0; i < tmpParam.length; i++) {
+		prop = tmpParam[i].split('=');
+		param[prop[0]]=prop[1];
+	};
+	var urls={
+		play:['http://track.dmrtb.com/h5v/event?type=play&tr='+param.tr], //1）点击播放：相当于咱们现在广告的点击事件；
+		cdp:['http://track.dmrtb.com/h5v/event?type=click-during-playging&tr='+param.tr], //2）播放中途点击下载按钮：
+		ended: ['http://track.dmrtb.com/h5v/event?type=ended&tr='+param.tr], //3）播放结束：
+		cae:['http://track.dmrtb.com/h5v/event?type=click-after-ended&tr='+param.tr]
+	}
+</script>
+
+<script type="text/javascript">
+var $ = function(q){return document.querySelector(q)}, 
+	$$ = function(q){return document.querySelectorAll(q)},
+	player = $('#player'), video = $('#crvideo');
+player.style.marginTop=-player.clientHeight/2+'px';
+
+// $('#poster').addEventListener('touchend',function(){
+// 	video.play();
+// 	__report(urls.play);
+// },false);
+$('#playingBtn').addEventListener('click',function(){
+	__report(urls.cdp);
+	domob.go();
+});
+$('#endedBtn').addEventListener('click',function(){
+	__report(urls.cae);
+	domob.go();
+});
+// video.addEventListener('canplaythrough',function(){video.play();},false);
+video.addEventListener('play',function(){
+	// if(typeof document.webkitExitFullscreen=="function")document.webkitExitFullscreen();
+	// changeCover($('#playingBtn'));
+	// video.pause();
+},false);
+// video.addEventListener('ended',function(){
+// 	changeCover($('#endedBtn'));
+// 	__report(urls.ended);
+// 	video.controls =false;
+// },false);
+video.addEventListener('pause',function(){
+	// changeCover($('#poster')); 
+	console.log(video.currentTime);
+},false);
+video.addEventListener('timeupdate',function(){
+	// changeCover($('#poster')); 
+	if(video.currentTime >= 10.3){
+		video.pause();
+	}
+
+},false);
+function changeCover (elems) {
+	if($('.cover-active'))$('.cover-active').className = $('.cover-active').className.replace('cover-active', '');
+	elems.className+=' cover-active';
+}
+var __report_done;
+function __report(urls, callback){
+	var len, url, img;
+	if(urls && (len = urls.length)){
+		while (len--) {
+			url = urls[len];
+			if (/^http/.test(url)) {
+				img = document.createElement('img');
+				if(typeof callback === "function"){
+					__report_done = 0;
+					img.onload = img.oninvalid = img.onabort = img.onloadend  = img.onerror = function(){
+						if(++__report_done == urls.length)callback();
+					}
+				}
+				img.src = url;
+			}
+		}
+	}else{
+		if(typeof callback === "function")callback();
+	}
+}
+	
+document.addEventListener('DOMContentLoaded', function(){
+	// changeCover($('#poster'));
+	video.load(); video.play(); //video.pause();
+}, false);
+</script>
+ 
+</body>
+</html>
