@@ -11,8 +11,22 @@ div{
 </head>
 <body class="v43">
 <div>
-	您的指纹为：<span id="player"></span>
+	结果：<span id="player"></span>
 </div>
+<iframe src="https://www.wish.com/m/c/53c9219446188e576e8ac8e1"></iframe>
+<!-- <iframe src="http://www.wish.com/#cid=57d4078d165f3b2d5476347c"></iframe> -->
+<!-- <iframe src="http://www.wish.com/#cid=5751b6f4bbc92560d6cd6750"></iframe> -->
+<!-- <iframe src="http://url.cn/473jvtn"></iframe> -->
+<!-- <iframe id="my" src=""></iframe> -->
+<script type="text/javascript">
+// https://www.amazon.com/August-Smart-Lock-2nd-Gen/dp/B0168IXO3M/ref=s9u_qpp_…KVB9Y7&pf_rd_t=36701&pf_rd_p=2a4fafb6-9fdc-425a-aee8-c82daa7b18ed&pf_rd_i=
+var req = new XMLHttpRequest();
+req.addEventListener('readystatechange', function(){
+	console.log(arguments);
+});
+req.open('GET', "https://www.amazon.com/August-Smart-Lock-2nd-Gen/dp/B0168IXO3M/ref=s9u_qpp_…KVB9Y7&pf_rd_t=36701&pf_rd_p=2a4fafb6-9fdc-425a-aee8-c82daa7b18ed&pf_rd_i=");
+// req.send();
+</script>
 <script type="text/javascript">
 function bin2hex(s) {
 	var i, l, o = '',
@@ -31,7 +45,7 @@ function bin2hex(s) {
 
 var canvas = document.createElement('canvas'),
 	ctx = canvas.getContext('2d'),
-	txt = 'http://www.domob.cn/'; 
+	txt = navigator.userAgent+location.href; 
 
 	ctx.textBaseline = "top"; 
 	ctx.font = "14px 'Arial'"; 
@@ -40,12 +54,12 @@ var canvas = document.createElement('canvas'),
 	ctx.fillRect(125,1,62,20); 
 	ctx.fillStyle = "#069"; 
 	ctx.fillText(txt, 2, 15); 
-	ctx.fillStyle = "rgba(102, 204, 0, 0.7)"; 
+	ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
 	ctx.fillText(txt, 4, 17);
 var b64 = canvas.toDataURL().replace("data:image/png;base64,",""),
 	bin = atob(b64),
 	crc = bin2hex(bin.slice(-32,-12)); 
-	document.getElementById('player').innerHTML=crc;
+	document.getElementById('player').innerHTML=crc+"."+(new Date()).valueOf();
 </script>
  
 </body>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=1" />
+<title></title>
+<style>
+html, body {margin: 0; padding: 0;-webkit-user-select:none;-ms-user-select:none;overflow: hidden;height: 100%;position: relative;
+color:#fff;font-family: sans-serif;}
+img{border: medium none;} 
+a:link {text-decoration: none;}
+.wrap{height: 100%;width: 100%;display: block;
+}
+.wrap_item{display: block;width: 100%;
+}
+
+.itemright{
+box-sizing: border-box;
+position: relative;
+text-align: left;
+height: 34%;
+padding: 0.5rem 0.75rem;
+}
+.itemright:after{
+content: " ";
+display: block;
+position: absolute;
+right: 0.375em;
+bottom: 0.375em;
+height: 0.5em;width: 3.375em;
+background: transparent url('http://sm.domobcdn.com/ugc/1418288.png') no-repeat center center/auto 0.475em;
+}
+.itemright .txt{
+line-height: 1em;
+padding-bottom: 0.1em;
+}
+
+.logo {
+width: 3.625rem;height: 3.625rem;background-repeat: no-repeat;background-size: contain;background-color: #000;border-radius: 24%; 
+margin: 0 0.7rem 0 2em;float: left;-webkit-box-shadow:inset 0 0 0 1px rgba(0,0,0,0.5), 1px 2px 5px 0 rgba(0,0,0,0.75);
+box-shadow:inset 0 0 0 1px rgba(0,0,0,0.5), 1px 2px 5px 0 rgba(0,0,0,0.75);overflow: hidden;
+}
+.actOpacity:active{opacity:0.5}
+#replay{position:fixed;z-index:10000;left:0;top:0;padding:0 1em 1em 0;}
+#close{position:fixed;z-index:10000;right:0;top:0;padding:0 0 1em 1em;}
+#replay .icon{border-radius:0 0 0.25rem 0;}
+#close .icon{border-radius:0 0 0 0.25rem;}
+.icon{padding:0.375em;background-color:rgba(0,0,0,0.15)}
+.icon img{width:0.5em;height:0.5em;display:block}
+#bridge{height: 0;width: 0;overflow: hidden;border: medium none;}
+.btn{
+box-sizing: border-box; display: block;-webkit-appearance: none; position: absolute;left: initial;right: 2em;top: 1.25em;line-height: 1.6363em;border-radius: 3px;text-align: center;padding: 0.125em 1em;color: #fff; background-color:rgba(0,0,0,0.15);font-weight: 900;-webkit-box-shadow: 0 0.1rem 0.1rem 0 rgba(0,0,0,0.75);box-shadow: 0 0.1rem 0.1rem 0 rgba(0,0,0,0.75);}
+#imgPreload{position:absolute;left:-9999px;top:-9999px}#imgPreload img{position:absolute;left:0;top:0}
+
+.icon, .btn{-webkit-transition: background-color ease-out 0.3s;transition: background-color ease-out 0.3s;
+}
+#bg{position: absolute;top: -20%;right: -20%;bottom: -20%;left: -20%;background-color: #8f8f8f;background-position: center;background-size: cover;-webkit-filter: blur(1.6rem);filter: blur(1.6rem);-webkit-transition: background ease-out 0.3s;transition: background ease-out 0.3s;-webkit-transform: translateZ(0);transform: translateZ(0);
+}
+#name{padding-top: 0.25rem;}
+#rate {color: #b9b9b9;
+	font-size: 0.5rem;
+	line-height: 0.5rem;
+	overflow: hidden;
+	padding-top: 0.15rem;}
+#rate span, #rate_lv{
+	display: inline-block;
+	vertical-align: baseline;
+	height: 0.5rem;
+	width: 2.9rem;
+	background: transparent url(http://sm.domobcdn.com/ugc/1419254.png) no-repeat left center/auto 0.5rem;}
+#rate span{
+	margin-bottom: -2px;}
+#rate_lv{
+	display: block;
+	background-image: url(http://sm.domobcdn.com/ugc/1419253.png);}
+em{
+	font-style: normal;}
+#desc{
+	padding-top: 0.375rem;}
+#top{
+	position: relative;
+	width: 100%;
+	height:66%;
+	z-index: 2;}
+#top .cell{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 15%;
+	bottom: 5%;}
+#screenshots{
+	list-style: none;margin: 0;padding: 0;
+	opacity: 0;
+	transform: translateX(100%);
+	-webkit-transition: opacity ease-out 0.5s, transform ease-out 0.6s;
+	transition: opacity ease-out 0.5s, transform ease-out 0.6s;
+	height: 100%;
+	white-space: nowrap;}
+#screenshots li{
+	padding: 0 0.25rem;
+	display: inline;}
+#screenshots li img{
+	vertical-align: middle;
+	max-height: 90%;
+	max-width: 50%;
+	-webkit-box-shadow: 0 0 0.16rem 0.06rem rgba(0,0,0,0.7), 0 0 0 0.06rem #000;
+	box-shadow: 0 0 0.16rem 0.06rem rgba(0,0,0,0.7), 0 0 0 0.06rem #000;
+	-webkit-transition: background ease-out 0.3s;
+	transition: transform ease-out 0.3s;}
+#screenshots li.current{
+	/*z-index: 2;*/
+}
+#screenshots li.current img{
+	-webkit-transform: scale(1.3);
+	transform: scale(1.3);}
+@media all and (max-width: 367px){
+html{font-size: 16px;}
+}
+@media all and (min-width: 368px) and (max-width: 410px){
+html{font-size: 19px;}
+}
+@media all and (min-width: 411px) and (min-height: 51px) { /* min-height: 80px */
+html{font-size: 21px;}
+}
+@media all and (min-width: 488px) and (min-height: 51px) { /* min-height: 80px */
+html{font-size: 22px;}
+}
+@media all and (min-width: 600px) and (min-height: 81px) { /* min-height: 90px */
+html{font-size: 26px;}
+}
+@media all and (min-width: 735px) and (min-height: 91px) { /* min-height: 110px */
+html{font-size: 28px;}
+}
+@media all and (min-width: 800px) and (min-height: 111px) { /* min-height: 124px */
+html{font-size: 34px;}
+}
+@media all and (min-aspect-ratio: 4/3) and (max-aspect-ratio: 3/2){
+	#top{height: 80%}
+	.itemright {height: 20%}
+}
+@media all and (max-aspect-ratio: 1/1) {
+	body{
+	font-size: 1.75rem;
+	}
+	#top{height: 70%}
+	/*#top .cell{top: 15%;bottom: 5%}*/
+	.itemright {height: 30%}
+	.itemright .txt{
+		font-size: 0.6125em;
+		padding-top: 0.125rem;
+	}
+	#rate{
+		line-height: initial;
+	}
+	.logo{
+		float: left;
+		margin: 0 1rem;
+		width: 5.125rem;
+		height: 5.125rem;
+	}
+	.btn{
+		top: initial;
+		left: 2rem;right: 2rem;
+		font-size: 0.6875em;
+		bottom: 1.875rem;
+	}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<div id="bg"></div>
+<div id="top" class="wrap_item">
+	<div id="cell" class="cell">
+		<ul id="screenshots"></ul>
+	</div>
+</div>
+<div class="wrap_item itemright">
+<div id="logo" class="logo" ontouchend="download()"></div>
+<div id="txt" class="txt" ontouchend="download()">
+<div id="name"></div>
+<div id="rate"><span><em id="rate_lv"></em></span> (<em id="rate_count"></em>) </div>
+<div id="desc"></div>
+</div>
+<div class="btn-dnld">
+<div id="downloadButton" class="btn" ontouchend="download()">免费下载</div>
+</div>
+</div>
+<div id="close" class="actOpacity" ontouchend="closeVideo()"><div class="icon"><img src="http://sm.domobcdn.com/ugc/1396488.png"></div></div>
+<div id="replay" class="actOpacity" ontouchend="replay()">
+<div class="icon"><img src="http://sm.domobcdn.com/ugc/1396489.png">
+</div>
+</div>
+</div>
+<div id="imgPreload"></div><iframe id="bridge"></iframe>
+<script type="text/javascript" src="https://a.duomeng.cn/core/plugin/iscroll/iscroll-m.js"></script>
+<script type="text/javascript">
+var adData = <LANDING_DATA>;
+function download() {js2native(adData.ad.clk_url)}
+function js2native(a) {document.getElementById("bridge").src = a}
+function closeVideo() {js2native(window.closeUrl)}
+function replay() {js2native(window.replayUrl)}
+(function(window, document){
+	var DEFAULTURL;
+	var $btns = document.querySelectorAll('.icon, .btn'), $bg = document.getElementById('bg'), $desc = document.getElementById('desc') ;
+	window.onload = function() {
+		window.closeUrl = "domob://videoclose", window.replayUrl = "domob://replay";
+		$bg.style.backgroundImage = DEFAULTURL;
+		if (adData && adData.ad) {
+			document.getElementById("logo").style.backgroundImage = "url(" + adData.ad.logo + ")";
+			var a = document.getElementById("name"),b = adData.ad.name.length;7 == b ? a.className = "seven" : 8 == b ? a.className = "eight" : b > 8 && (a.className = "more"), a.innerHTML = adData.ad.name, $desc.innerHTML = adData.ad.desc;
+			if(adData.ad.desc.length>10){
+				$desc.style.fontSize = 10/adData.ad.desc.length+"em";
+			}
+			document.getElementById("rate_lv").style.width=adData.ad.r_level+"%";
+			document.getElementById("rate_count").innerHTML=adData.ad.r_cnt;var h, i;
+			adData.runtime && adData.runtime.sv && parseInt(adData.runtime.sv) >= 2e4 && (h = document.getElementById("close"), i = document.getElementById("replay"), h.style.display = "block", i.style.display = "block");
+			for (var i = 0; i < adData.ad.screenshots.length; i++) {
+				preloadImg(adData.ad.screenshots[i].url, i, oneImgLoaded);
+			}
+		}
+	};
+	var loadedCount = 0;
+	function oneImgLoaded(url, index){
+		adData.ad.screenshots[index].url = url;
+		if (++loadedCount == adData.ad.screenshots.length){
+			renderImages();
+		}
+	}
+	var list = document.getElementById('screenshots');
+	function renderImages() {
+		var tmp =[];
+		for (var i = 0; i < adData.ad.screenshots.length; i++) {
+			tmp.push('<li><img onclick="download()" alt="" src="'+adData.ad.screenshots[i].url+'"></li>');
+		}
+		list.innerHTML = tmp.join('');
+		list.style.lineHeight = list.offsetHeight+"px";
+		setTimeout(loaded, 100);
+	}
+	function preloadImg(url, index, callback){
+		var g = document.createElement("img");
+		g.onload = function() {
+			callback(url, index);
+		}, 
+		g.onerror = function() {
+			callback(DEFAULTURL, index);
+		}, 
+		g.src = url, document.getElementById("imgPreload").appendChild(g);
+	}
+	window.addEventListener('resize', cleanLimits);
+
+	var myScroll;
+	function loaded () {
+		list.style.opacity = 1;
+		var items = document.querySelectorAll('#screenshots img'), sumWidth=0, tmpGap = 0, cw = document.body.clientWidth;
+		for (var i = 0; i < items.length; i++) {
+			items[i].style.width = items[i].offsetWidth+"px";
+			sumWidth += items[i].parentNode.offsetWidth;
+		}
+		tmpGap = (cw-items[0].parentNode.offsetWidth)/2;
+		list.style.transform = "translateX("+tmpGap + "px)";
+
+		tmpGap += (cw-items[items.length-1].parentNode.offsetWidth)/2;
+		list.style.marginRight = tmpGap + "px";
+		sumWidth += tmpGap;
+
+		document.querySelector('#cell').style.width = sumWidth+"px";
+		setTimeout(function(){
+			if(myScroll)
+				myScroll.refresh();
+			else{
+				myScroll = new IScroll('#top', { scrollX: true, scrollY: false, snap: 'li', snapThreshold: 0.003, snapSpeed: 600});
+				myScroll.on('scrollEnd', function(){
+					// console.log('scrollEnd', this.currentPage);
+					setCurrent(this.currentPage.pageX);
+				});
+			}
+			setCurrent(0);
+		}, 300);
+	}
+	function cleanLimits(){
+		DEFAULTURL = window.innerWidth > 736? "https://sd.domobcdn.com/hm/2015/mp3/img/1.jpg": "https://sd.domobcdn.com/hm/2015/mp3/img/default1.jpg";
+		list.style.marginLeft = list.style.marginRight = 0;
+		list.style.lineHeight = list.offsetHeight+"px";
+		document.querySelector('#cell').style.width = "auto";
+		var items = document.querySelectorAll('#screenshots img');
+		for (var i = 0; i < items.length; i++) {
+			items[i].style.width = "auto";
+		}
+		setTimeout(loaded, 100);
+	}
+	function setCurrent(page) {
+		var items = document.querySelectorAll('#screenshots li');
+		if(items[page].className=="current")return;
+		for (var i = 0; i < items.length; i++) {
+			items[i].className = "";
+		}
+		items[page].className="current";
+		adData.ad.screenshots[page].color = adData.ad.screenshots[page].color.match(/^#([0-9,a-f,A-F]{3}){1,2}$/)?adData.ad.screenshots[page].color:"rgba(0,0,0,0.15)";
+		$bg.style.backgroundImage = 'url('+adData.ad.screenshots[page].url+')';
+		for (var g = 0; g < $btns.length; g++) {
+			$btns[g].style.backgroundColor = adData.ad.screenshots[page].color;
+		}
+		if(runtimer)clearTimeout(runtimer);
+		run();
+	}
+	var runtimer, pause;
+	function run() {
+		runtimer = setTimeout(function(){
+			var next = (myScroll.currentPage.pageX === adData.ad.screenshots.length-1)?0:(myScroll.currentPage.pageX+1);
+			myScroll.goToPage(next, 0);
+		}, 2000);
+	}
+	document.addEventListener('touchmove', function (e) { if(runtimer)clearTimeout(runtimer); }, false);
+})(window, document);
+</script></body>
+</html>

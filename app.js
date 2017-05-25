@@ -7,6 +7,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
+var bodyParser = require('body-parser');
 var config = require('./config/config.json');
 // var passport = require('passport');
 
@@ -23,6 +24,7 @@ app.use(express.logger('dev'));
 app.use(express.compress());
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(bodyParser({ uploadDir: path.join(__dirname, 'files'), keepExtensions: true }));
 app.use(express.methodOverride());
 app.use('/site', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, config.DPR_FILES_PATH)));

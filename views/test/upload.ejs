@@ -11,17 +11,17 @@ html, body{
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 </head>
 <body>
-<ul id="debug"></ul>
 <div>
 	<input type="file" id="fileInput" name="file" />
 </div>
+<ul id="debug"></ul>
 <script type="text/javascript" src="/site/upload/zip.js"></script>
 <script type="text/javascript">
 zip.workerScriptsPath = "/site/upload/worker/";
 function log(){
 	var li = document.createElement('li');
 	li.innerHTML = Array.prototype.join.call(arguments, ' ');
-	document.getElementById('debug').appendChild(li);
+	document.getElementById('debug').prepend(li);
 }
 var zipper = (function() {
 	var zipWriter, writer;
@@ -64,15 +64,16 @@ var UPLOAD_BUNCH = 1*Math.pow(1024, 2); //1M
 
 (function(){
 	var fileInput = document.getElementById('fileInput');
+	var startTime;
 	fileInput.addEventListener('change', function(e){
 		var file = e.target.files[0];
 		if(file.size> MAX_UPLOAD){
 			return log('文件太大');
 		}
 		console.log('got file:', file.name, file.size);
-
+		startTime = new Date();
 		sliceFile(file, zipBlob, function uploadFinished(){
-			console.log('finished:', file.name);
+			console.log('finished:', file.name, startTime-(new Date()));
 		});
 	}, false);
 
@@ -96,14 +97,25 @@ var UPLOAD_BUNCH = 1*Math.pow(1024, 2); //1M
 			});
 		}
 	}
-	var socket = io('domob-206.domob-inc.cn:14455');
+	var socket = io('domob-206.domob-inc.cn:14455'),
+		serverReady=false;
 	function preSend(rangeObj, done){
+		if(!serverReady){
+			log('server not ready');
+			return;
+		}
 		console.log('blob sended:', rangeObj.blob.size);
 		socket.emit('push file', rangeObj);
 		done();
 	}
+	socket.on('server ready', function(){
+		serverReady=true;
+	});
+	socket.on('disconnect', function(){
+		serverReady=false;
+	});
 	socket.on('push file finished', function(e){
-		console.log('push file finished', e.name, e.start, e.end);
+		console.log('push file finished', e.name, e.start, e.end,  startTime-(new Date()));
 	});
 	function zipBlob(rangeObj, next, done){
 		var blob_name = rangeObj.name+"_"+rangeObj.start+"-"+rangeObj.end;
