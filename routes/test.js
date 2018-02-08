@@ -99,6 +99,13 @@ module.exports.controller = function(app) {
 			res.end(chunk);
 		});
 	});
+	app.get("/test/landing", function(req, res) {
+		res.render('test/landing', {}, function(err, chunk){
+			if(err)console.error(err);
+			// res.status(404).end();
+			res.end(chunk);
+		});
+	});
 
 	var __sdk_r_count=0;
 	app.get("/test/sdk_r", function(req, res) {

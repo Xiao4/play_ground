@@ -5,40 +5,45 @@
 <title>Taobao</title>
 <style>
 *{margin:0;padding:0;border:medium none;height: 100%;width: 100%;}
+#bg{background: no-repeat center/cover;}
 </style>
 </head>
 <body class="v43">
+<div id="bg" style="background-image: url(http://sm.domobcdn.com/ugc/e/23864d84fe011344f16dac31.jpg);"></div>
 <script type="text/javascript">
 	var tmpParam = location.search.substr(1).split('&'), param={}, prop;
 	for (var i = 0; i < tmpParam.length; i++) {
 		prop = tmpParam[i].split('=');
 		param[prop[0]]=prop[1];
 	};
-	var ifURL="http://item.taobao.com/item.htm?id=43316187256&mm_gxbid="+param.mm_gxbid,
-		taobaoURL="taobao://item.taobao.com/item.htm?id=43316187256&mm_gxbid="+param.mm_gxbid,
-		// tmallURL="tmall://item.taobao.com/item.htm?id=43316187256&mm_gxbid="+param.mm_gxbid;
-		tmallURL="http://itunes.apple.com/cn/app/kuang-bao-zhi-yi3d/id1112060888?l=zh&ls=1&mt=8&mm_gxbid="+param.mm_gxbid;
-		// "tmall://page.tm/webview?webURLString="+encodeURIComponent('item.taobao.com/item.htm?id=43316187255');
+	var URLS = {
+			wake: "dianping://web?url=https%3A%2F%2Fh5.dianping.com%2Fapp%2Fziggurat%2F249%2Findex.html%3F%26utm_source%3D__7a92&utm_=__7a92",
+			landing: "https://h5.dianping.com/app/ziggurat/249/index.html?source=ios_old",
+			imp: "http://track.dmrtb.com/inmobi/imp",
+			clk: "http://track.dmrtb.com/inmobi/click",
+			tr: undefined
+		},
+		timewaitToLand= 5000;
+	URLS.tr = URLS.tr? URLS.tr:(tmpParam.tr?tmpParam.tr:undefined);
 </script>
 
 <script type="text/javascript">
 function taobao(){
-	var ifr=document.createElement('iframe');
-	ifr.src = ifURL+"&e_ts="+(new Date()).valueOf();
-	document.body.appendChild(ifr);
-	
-	ifr.addEventListener('load', function(){
-		var __os = navigator.userAgent.match(/OS (\d+)_\d[_\d]* like Mac OS X/i);
-		if(__os.length && parseInt(__os[1], 10)>8){
-			setTimeout(function(){
-				useAnchorLink(taobaoURL);
-				useAnchorLink(tmallURL);
-			}, 2000);
-		}else{
-			makeHiddenIframe(taobaoURL);
-			makeHiddenIframe(tmallURL);
+	var __os = navigator.userAgent.match(/OS (\d+)_\d[_\d]* like Mac OS X/i)
+		ot=(new Date()).valueOf();
+	__report(URLS.clk);
+	if(__os.length && parseInt(__os[1], 10)>8){
+		setTimeout(function(){
+			useAnchorLink(URLS.wake);
+		}, 100);
+	}else{
+		makeHiddenIframe(URLS.wake);
+	}
+	setTimeout(function(){
+		if((new Date()).valueOf()-ot < timewaitToLand+100){
+			useAnchorLink(URLS.landing);
 		}
-	});
+	}, timewaitToLand);
 }
 function useAnchorLink(url) {
     var a = document.createElement('a');
@@ -61,7 +66,17 @@ function makeHiddenIframe(url){
     ifa.src = url+"&e_ts="+(new Date()).valueOf();
     document.body.appendChild(ifa);
 }
-document.addEventListener("DOMContentLoaded", taobao);
+function __report(url){
+	img = document.createElement('img');
+	if(URLS.tr){
+		url = url.replace(/__DMUIJSTR__/g, URLS.tr);
+	}
+	img.src = url;
+}
+document.addEventListener("DOMContentLoaded", function(){
+	__report(URLS.imp);
+});
+document.getElementById('bg').addEventListener('touchend', taobao);
 </script>
 </body>
 </html>
