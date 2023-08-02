@@ -1,0 +1,21 @@
+name: test web hook
+on: 
+  workflow_dispatch:
+jobs:
+  send:
+    name: send to
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate, mask, and output a secret
+        id: action-hosting-deploy
+        run: |
+          details_url="https://arbitragescan--pr739-bugfix-flashloan-tre-nn916ynn.web.app"
+          echo "::add-mask::$details_url"
+          echo "details_url=$details_url" >> "$GITHUB_OUTPUT"
+      - name: Invoke deployment hook
+        uses: johannes-huther/webhook.sh@v1
+        env:
+          webhook_type: 'json-extended'
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          #webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+          data: '{ "msg_type": "text", "content": { "text": "PR Preview Live at: \nhttps://arbitragescan--pr739-bugfix-flashloan-tre-nn916ynn.web.app" }}'
