@@ -17,5 +17,5 @@ jobs:
         env:
           webhook_type: 'json-extended'
           webhook_url: ${{ secrets.WEBHOOK_URL }}
-          #webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
           data: '{ "msg_type": "text", "content": { "text": "PR Preview Live at: \nhttps://arbitragescan--pr739-bugfix-flashloan-tre-nn916ynn.web.app" }}'
